@@ -1,27 +1,50 @@
 import tkinter as tk
 import random
 
-root = tk.Tk()
-root.title("TEST")
-canvas = tk.Canvas(root, width=500, height=500)
-
-colors = ['#37AB65', '#3DF735', '#AD6D70', '#EC2504', '#8C0B90']
-circle_size_max = 100
-circle_size_min = 20
+ROWS = 10
+COLUMNS = 10
+MINES = 10
+CELL_SIZE = 50
 
 
-def draw_random_circle(event):
-    global circle_size_min
-    global circle_size_max
-    circle_size = random.randint(circle_size_min, circle_size_max)
-    x = random.randint(circle_size, 500 - circle_size)
-    y = random.randint(circle_size, 500 - circle_size)
-    color = random.choice(colors)
-    canvas.create_oval(x - circle_size, y - circle_size, x + circle_size, y + circle_size, fill=color)
-    canvas.focus_set()
+def create_board():
+    board = [[{'value': None, 'hidden': True, 'flagged': False} for j in range(COLUMNS) for i in range(ROWS)]]
+    for i in range(MINES):
+        while True:
+            row = random.randint(0, ROWS - 1)
+            col = random.randint(0, COLUMNS - 1)
+            if board[row][col]['value'] != '*':
+                board[row][col]['value'] = '*'
+                break
 
+    for i in range(ROWS):
+        for j in range(COLUMNS):
+            if board[i][j]['value'] != '*':
+                count = 0
+                for ii in range(max(0, i - 1), min(i + 2, ROWS)):
+                    for jj in range(max(0, j - 1), min(j + 2, COLUMNS)):
+                        if board[ii][jj]['value'] == '*':
+                            count = count + 1
+                board[i][j]['value'] = count
+    return board
 
-canvas.bind("<Key-r>", draw_random_circle)
-canvas.pack()
-canvas.focus_set()
-root.mainloop()
+def flag_cell(row, col):
+    global board, cells
+    cell = board[row][col]
+    if cell['hidden']:
+        if cell['flagged']:
+            cell['flagged'] = False
+            #canvas
+        else:
+            cell['flagged'] = True
+            #canvas
+            check_win()
+
+def check_win():
+    global board
+    for i in range(ROWS):
+        for j in range(COLUMNS):
+    
+    
+    
+board = create_board()
