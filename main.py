@@ -44,7 +44,24 @@ def check_win():
     global board
     for i in range(ROWS):
         for j in range(COLUMNS):
-    
-    
-    
+            cell = board[i][j]
+            if cell['hidden'] and not cell['flagged']:
+                return
+    for i in range(ROWS):
+        for j in range(COLUMNS):
+            if board[i][j]['value'] == '*':
+                #canvas
+    #canvas binding here
+
+root = tk.Tk()
+root.Title("САПЁР")
+canvas = tk.Canvas(root, width=COLUMNS * CELL_SIZE, height = ROWS * CELL_SIZE)
+canvas.pack()
+
+cells = [[None for j in range(COLUMNS)] for i in range(ROWS)]
+for i in range(ROWS):
+    for j in range(COLUMNS):
+        create_cell(i, j)
+
 board = create_board()
+root.mainloop()
