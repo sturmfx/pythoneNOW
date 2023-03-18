@@ -52,7 +52,23 @@ def check_win():
             if board[i][j]['value'] == '*':
                 #canvas
     #canvas binding here
+def create_cell(row, col):
+    global cells
+    x0 = col * CELL_SIZE
+    y0 = row * CELL_SIZE
+    x1 = x0 + CELL_SIZE
+    y1 = y0 + CELL_SIZE
+    cell = canvas.create_rectangle(x0, y0, x1, y1, fill='gray', tags='cell')
+    canvas.tag_bind(cell, 'Button-1', lambda event, row=row, col=col:show_cell(row, col))
+    canvas.tag_bind(cell, 'Button-3', lambda event, row=row, col=col: flag_cell(row, col))
+    cells[row][col] = cell
 
+def show_cell(row, col):
+    global board, cells
+    cell = board[row][col]
+    if cell['hidden'] and not cell['flagged']:
+        cell['hidden'] = False
+        if cell['value'] == '*':
 root = tk.Tk()
 root.Title("САПЁР")
 canvas = tk.Canvas(root, width=COLUMNS * CELL_SIZE, height = ROWS * CELL_SIZE)
