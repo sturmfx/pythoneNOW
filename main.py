@@ -34,10 +34,10 @@ def flag_cell(row, col):
     if cell['hidden']:
         if cell['flagged']:
             cell['flagged'] = False
-            #canvas
+            canvas.itemconfigure(cells[row][col], fill='gray', text='')
         else:
             cell['flagged'] = True
-            #canvas
+            canvas.itemconfigure(cells[row][col], fill='orange', text='F')
             check_win()
 
 def check_win():
@@ -50,7 +50,8 @@ def check_win():
     for i in range(ROWS):
         for j in range(COLUMNS):
             if board[i][j]['value'] == '*':
-                #canvas
+                canvas.itemconfigure(cells[i][j], fill='black', text='*')
+    canvas.unbind("<Button-1>")
     #canvas binding here
 def create_cell(row, col):
     global cells
@@ -69,6 +70,19 @@ def show_cell(row, col):
     if cell['hidden'] and not cell['flagged']:
         cell['hidden'] = False
         if cell['value'] == '*':
+            for i in range(ROWS):
+                for j in range(COLUMNS):
+                    if board[i][j]['value'] == '*'
+                        canvas.itemconfigure(cells[i][j], fill='red')
+            canvas.unbind("<Button-1>")
+        elif cell['value'] == 0:
+            canvas.itemconfigure(cells[row][col], fill='green', text='')
+            for i in range(max(0, row-1), min(row + 2, ROWS)):
+                for j in range(max(0, col-1), min(col+2, COLUMNS)):
+                    show_cell(i, j)
+        else:
+            canvas.itemconfigure(cells[row][col], fill='green', text=str(cell['value']))
+            check_win()
 root = tk.Tk()
 root.Title("САПЁР")
 canvas = tk.Canvas(root, width=COLUMNS * CELL_SIZE, height = ROWS * CELL_SIZE)
