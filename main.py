@@ -72,7 +72,7 @@ def show_cell(row, col):
         if cell['value'] == '*':
             for i in range(ROWS):
                 for j in range(COLUMNS):
-                    if board[i][j]['value'] == '*'
+                    if board[i][j]['value'] == '*':
                         canvas.itemconfigure(cells[i][j], fill='red')
             canvas.unbind("<Button-1>")
         elif cell['value'] == 0:
